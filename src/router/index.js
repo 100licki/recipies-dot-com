@@ -18,11 +18,11 @@ const routes = [
         name: "home",
         component: Home,
       },
-      {
-        path: "/by-name/:name?",
-        name: "byName",
-        component: MealsByName,
-      },
+      //{
+      //  path: "/by-name/:name?",
+      //  name: "byName",
+      //  component: MealsByName,
+      //},
       {
         path: "/by-letter/:letter?",
         name: "byLetter",

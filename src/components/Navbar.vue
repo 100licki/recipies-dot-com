@@ -9,33 +9,32 @@
     <div class="p-8 pb-3">
     <h1 class="text-4xl font-bold mb-4" style="color: #F1AD80;"></h1>
   </div>
-  <div class="px-8 pb-3">
-    <input
-      type="text"
-      v-model="keyword"
-      class="rounded border-2 bg-white border-gray-200 focus:ring-orange-500 focus:border-orange-500 w-full"
-      placeholder="Search for Meals"
-      @change="searchMeals"
-    />
+  <div class="px-8 pb-3 w-full">
+    <router-link
+      :to="{ name: 'home' }"
+      class="text-4xl font-bold mb-4 w-full" style="color: #F1AD80;"
+      >
+      <input
+        type="text"
+        v-model="keyword"
+        class="rounded border-2 bg-white border-gray-200 focus:ring-orange-300 focus:border-orange-300 w-full"
+        placeholder="Search for Meals"
+        @change="searchMeals"
+      />
+    </router-link>
   </div>
 
   <Meals :meals="meals" />
     <div class="flex items-center gap-1">
       <router-link
-        :to="{ name: 'byName' }"
-        style="color: #000000;" class="inline-flex items-center px-2 h-full transition-colors hover:bg-orange-300 hover:text-white"
-      >
-        Search Meals
-      </router-link>
-      <router-link
         :to="{ name: 'byLetter' }"
-        style="color: #000000;" class="inline-flex items-center px-2 h-full transition-colors hover:bg-orange-300 hover:text-white"
+        style="color: #000000;" class="inline-flex items-center justify-center px-2 h-full transition-colors hover:bg-orange-300 hover:text-white w-32"
       >
         Meals By Letter
       </router-link>
       <router-link
         :to="{ name: 'ingredients' }"
-        style="color: #000000;" class="inline-flex items-center px-2 h-full transition-colors hover:bg-orange-300 hover:text-white"
+        style="color: #000000;" class="inline-flex items-center justify-center px-2 h-full transition-colors hover:bg-orange-300 hover:text-white w-44"
       >
         Meals By Ingredients
       </router-link>
@@ -60,7 +59,7 @@ function searchMeals() {
   if (keyword.value) {
     store.dispatch("searchMeals", keyword.value);
   } else {
-    store.commit("setSearchedMeals", []);
+    store.commit("", []);
   }
 }
 

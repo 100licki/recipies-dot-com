@@ -6,7 +6,7 @@
     <input
       type="text"
       v-model="keyword"
-      class="rounded border-2 bg-white border-gray-200 focus:ring-orange-500 focus:border-orange-500 w-full"
+      class="rounded border-2 bg-white border-gray-200 focus:ring-orange-300 focus:border-orange-300 w-full"
       placeholder="Search for Meals"
       @change="searchMeals"
     />
