@@ -7,6 +7,9 @@ import MealsByLetter from '../views/MealsByLetter.vue'
 import MealsByName from '../views/MealsByName.vue'
 import MealDetails from '../views/MealDetails.vue'
 import Ingredients from '../views/Ingredients.vue'
+import Admin from '../views/Admin.vue'
+import Tags from '../views/Tags.vue'
+import AddMeal from '../views/AddMeal.vue'
 
 const routes = [
   {
@@ -17,6 +20,26 @@ const routes = [
         path: "/",
         name: "home",
         component: Home,
+      },
+      {
+        path: '/admin',
+        name: 'Admin',
+        component: Admin,
+      },
+      {
+        path: '/admin/tags',
+        name: 'Tags',
+        component: Tags,
+      },
+      {
+        path: '/admin/ingredients',
+        name: 'Ingredients',
+        component: Ingredients,
+      },
+      {
+        path: '/admin/add-meal',
+        name: 'AddMeal',
+        component: AddMeal,
       },
       //{
       //  path: "/by-name/:name?",
