@@ -10,7 +10,7 @@
   </div>
 
   <div>
-    <router-link to="/add-meal">Dodaj Posiłek</router-link>
+    <router-link to="/admin/add-meal">Dodaj Posiłek</router-link>
   </div>
 </template>
 
