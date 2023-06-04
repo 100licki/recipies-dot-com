@@ -27,7 +27,7 @@
         <h2>Lista Potraw</h2>
         <ul>
             <li v-for="meal in meals" :key="meal.id">
-                <span>{{ meal.name }} - {{ meal.time }} - {{ meal.difficulty }}</span>
+                <span>{{ meal.name }} - {{ meal.time }}</span>
                 <button @click="deleteMeal(meal.id)">Usuń</button>
             </li>
         </ul>
@@ -35,7 +35,7 @@
 </template>
   
 <script>
-import { collection, doc, getDocs, deleteDoc, orderBy, query } from 'firebase/firestore';
+import { collection, doc, getDocs, deleteDoc, orderBy, query, serverTimestamp, addDoc } from 'firebase/firestore';
 import db from '../firebase/init.js'
 
 export default {
@@ -50,7 +50,7 @@ export default {
                 time: '',
                 ingredients: [],
                 tags: [],
-                difficulties: []
+                difficulty: []
             },
             selectedDifficulty: [],
             selectedIngredients: [],
@@ -73,10 +73,10 @@ export default {
     },
         async addMeal() {
             const { name: name, origin: origin, preparation: preparation, youtube: youtube, picture: picture, time: time, } = this.meal;
-            if (name && origin && preparation && picture && time && this.selectedTags.length > 0 && this.selectedIngredients.length > 0) {
+            if (name && preparation && picture && time && this.selectedTags.length > 0 && this.selectedIngredients.length > 0 && this.selectedDifficulty) {
                 const tagIds = this.selectedTags.map(tagId => doc(db, 'tags', tagId)); // Pobierz referencje do wybranych tagów
                 const ingredientIds = this.selectedIngredients.map(ingredientId => doc(db, 'ingredients', ingredientId)); // Pobierz referencje do wybranych składników
-                const difficultyId = this.selectedDifficulties.map(difficultyId => doc(db, 'difficulties', difficultyId)); // Pobierz referencje do wybranego poziomu trudności
+                const difficultyId = doc(db, 'difficulties', this.selectedDifficulty); // Pobierz referencje do wybranego poziomu trudności
                 const mealData = {
                     name: name,
                     origin: origin,
@@ -85,12 +85,15 @@ export default {
                     picture: picture,
                     tags: tagIds,
                     ingredients: ingredientIds,
-                    difficulties: difficultyId,
+                    difficulty: difficultyId,
                     time: time,
+                    created: serverTimestamp()
 
                 };
 
                 try {
+                    // const docRef = 
+                    await addDoc(collection(db, 'meals'), mealData);
                     this.resetForm();
                     this.loadMeals();
                 } catch (error) {
@@ -120,7 +123,7 @@ export default {
         },
         async loadDifficulties() {
             try {
-                const querySnapshot = await getDocs(query(collection(db, 'difficulties'), orderBy('order'))); // Pobierz wszystkie dokumenty z kolekcji 'difficultiest'
+                const querySnapshot = await getDocs(query(collection(db, 'difficulties'), orderBy('order'))); // Pobierz wszystkie dokumenty z kolekcji 'difficulties'
                 querySnapshot.forEach(doc => {
                     this.difficulties.push({ id: doc.id, ...doc.data() });
                 });
@@ -155,7 +158,7 @@ export default {
             this.meal.time = '';
             this.selectedTags = [];
             this.selectedIngredients = [];
-            this.difficulties = [];
+            this.selectedDifficulty = [];
         },
     },
 };
