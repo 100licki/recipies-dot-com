@@ -92,8 +92,7 @@ export default {
                 };
 
                 try {
-                    // const docRef = 
-                    await addDoc(collection(db, 'meals'), mealData);
+                    await addDoc(collection(db, 'meals'), mealData); // dodanie
                     this.resetForm();
                     this.loadMeals();
                 } catch (error) {
