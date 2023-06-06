@@ -1,23 +1,38 @@
 <template>
   <div class="p-8 pb-0" style="color: #F1AD80;">
-    <h1 class="text-4xl font-bold mb-4">Random Meals</h1>
+    <h1 class="text-4xl font-bold mb-4">Meals</h1>
   </div>
   <Meals :meals="meals" />
 </template>
 
-<script setup>
-import { computed, onMounted, ref } from "vue";
-import store from "../store";
-import Meals from "../components/Meals.vue";
-import axiosClient from "../axiosClient.js";
+<script>
+import { collection, getDocs } from 'firebase/firestore';
+import db from '../firebase/init.js'
+import Meals from '../components/Meals.vue';
 
-const meals = ref([]);
-
-onMounted(async () => {
-  for (let i = 0; i < 10; i++) {
-    axiosClient
-      .get(`random.php`)
-      .then(({ data }) => meals.value.push(data.meals[0]));
+export default {
+  components: {
+    Meals,
+  },
+  data() {
+    return {
+      meals: []
+    };
+  },
+  mounted() {
+    this.loadMeals();
+  },
+  methods: {
+    async loadMeals() {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'meals')); // Pobierz wszystkie dokumenty z kolekcji 'meals'
+        this.meals = querySnapshot.docs.map(doc => {
+          return { id: doc.id, ...doc.data() };
+        });
+      } catch (error) {
+        console.error('Błąd podczas ładowania posiłków:', error);
+      }
+    }
   }
-});
+};
 </script>

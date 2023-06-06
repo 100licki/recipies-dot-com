@@ -13,11 +13,9 @@
         <strong class="font-bold">Time:</strong> {{ meal.time }}
       </div>
     </div>
-
     <div class="my-3">
       {{ meal.preparation }}
     </div>
-
     <div class="grid grid-cols-1 sm:grid-cols-2">
       <div>
         <h2 class="text-2xl font-semibold mb-2">Ingredients</h2>
@@ -32,11 +30,11 @@
             {{ tag.name }}
           </li>
         </ul>
+        <!-- do poprawienia -->
+        <div class="flex items-center justify-between">
+          <YouTubeButton :href="meal.youtube" />
+        </div>
       </div>
-      <a :href="meal.youtube" target="_blank"
-        class="px-3 py-2 rounded border-2 text-white border-orange-600 bg-orange-500 hover:bg-orange-600 transition-colors">
-        <slot>YouTube</slot>
-      </a>
     </div>
   </div>
 </template>
@@ -45,8 +43,12 @@
 import { doc, getDoc } from 'firebase/firestore';
 import db from '../firebase/init.js'
 import { useRoute } from "vue-router";
+import YouTubeButton from '../components/YouTubeButton.vue';
 
 export default {
+  components: {
+    YouTubeButton,
+  },
   data() {
     return {
       meal: {},
@@ -71,39 +73,44 @@ export default {
       this.fetchTags()
       this.fetchDifficulty()
     },
-    async fetchIngredients() {
+    fetchIngredients() {
       const ingredientRefs = this.meal.ingredients;
       console.log(ingredientRefs);
-      try {
-        for (const ingredientRef of ingredientRefs) {
-          const ingredientDoc = await getDoc(ingredientRef);
-          this.ingredients.push(ingredientDoc.data());
-        }
-      } catch (error) {
-        console.error('Błąd pobierania składników:', error);
-      }
+
+      const ingredientPromises = ingredientRefs.map(ingredientRef => getDoc(ingredientRef));
+      Promise.all(ingredientPromises)
+        .then(ingredientDocs => {
+          this.ingredients = ingredientDocs.map(ingredientDoc => ingredientDoc.data());
+        })
+        .catch(error => {
+          console.error('Błąd pobierania składników:', error);
+        });
     },
-    async fetchTags() {
+    fetchTags() {
       const tagRefs = this.meal.tags;
       console.log(tagRefs);
-      try {
-        for (const tagRef of tagRefs) {
-          const tagDoc = await getDoc(tagRef);
-          this.tags.push(tagDoc.data());
-        }
-      } catch (error) {
-        console.error('Błąd pobierania tagów:', error);
-      }
+
+      const tagPromises = tagRefs.map(tagRef => getDoc(tagRef));
+      Promise.all(tagPromises)
+        .then(tagDocs => {
+          this.tags = tagDocs.map(tagDoc => tagDoc.data());
+        })
+        .catch(error => {
+          console.error('Błąd pobierania tagów:', error);
+        });
     },
-    async fetchDifficulty() {
+    fetchDifficulty() {
       const difficultyRef = this.meal.difficulty;
       console.log(difficultyRef);
-      try {
-        const difficultyDoc = await getDoc(difficultyRef);
-        this.difficulty = difficultyDoc.data();
-      } catch (error) {
-        console.error('Błąd pobierania trudności:', error);
-      }
+
+      const difficultyPromise = getDoc(difficultyRef);
+      Promise.all([difficultyPromise])
+        .then(([difficultyDoc]) => {
+          this.difficulty = difficultyDoc.data();
+        })
+        .catch(error => {
+          console.error('Błąd pobierania trudności:', error);
+        });
     }
   }
 }
