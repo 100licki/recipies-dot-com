@@ -8,10 +8,6 @@
     </div>
 
     <div class="flex items-center gap-1">
-      <router-link :to="{ name: 'byLetter' }" style="color: #000000;"
-        class="inline-flex items-center justify-center px-2 h-full transition-colors hover:bg-orange-300 hover:text-white w-32">
-        Meals By Letter
-      </router-link>
 
 
       <!-- Tutaj jeszcze button do administacji -->
