@@ -1,7 +1,8 @@
 <template>
   <div>
-    <div>
-      <input type="text" v-model="searchTerm" @input="searchByIngredient" placeholder="Wyszukaj składnik">
+    <div class="px-8 pb-3">
+      <br> <!-- Empty line -->
+      <input type="text" v-model="searchTerm" @input="searchByIngredient"  class="rounded border-2 bg-white border-gray-200 focus:ring-orange-300 focus:border-orange-300 w-full" placeholder="Wyszukaj składnik">
     </div>
     <div v-if="filteredMeals.length === 0 && searchTerm !== ''">
       Brak potraw dla wpisanego składnika.

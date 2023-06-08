@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Wyszukiwarka potraw</h1>
+    <br> <!-- Empty line -->
     <MealSearch />
   </div>
 </template>
