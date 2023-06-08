@@ -14,19 +14,19 @@
       </router-link>
 
 
-      <!-- Tutaj jeszcze button do administacji i kolejny do filtrowania po 'ingredient' -->
+      <!-- Tutaj jeszcze button do administacji -->
 
 
-      <!-- <router-link :to="{ name: 'byIngredient' }" style="color: #000000;"
+      <router-link :to="{ name: 'byIngredient' }" style="color: #000000;"
         class="inline-flex items-center justify-center px-2 h-full transition-colors hover:bg-orange-300 hover:text-white w-44">
-        TODO Meals By Ingredients
-      </router-link> -->
+        Meals By Ingredients
+      </router-link>
     </div>
   </header>
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();

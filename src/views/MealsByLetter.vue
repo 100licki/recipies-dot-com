@@ -31,10 +31,20 @@ export default {
   setup() {
     const letters = ref('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''))
     const filteredMeals = ref([])
+    const showAllMeals = ref(true) // Dodana zmienna showAllMeals
 
     const filterByLetter = async (letter) => {
+      showAllMeals.value = false; // Zmiana wartości showAllMeals przy wybraniu litery
+
       const mealsRef = collection(db, 'meals')
-      const q = query(mealsRef, where('name', '>=', letter), where('name', '<', letter + 'z'))
+      let q;
+
+      if (showAllMeals.value) {
+        q = mealsRef; // Jeśli showAllMeals jest true, pobierz wszystkie potrawy
+      } else {
+        q = query(mealsRef, where('name', '>=', letter), where('name', '<', letter + 'z'));
+      }
+
       const querySnapshot = await getDocs(q)
 
       filteredMeals.value = querySnapshot.docs.map((doc) => {
@@ -49,8 +59,8 @@ export default {
     }
 
     onMounted(() => {
-      // Domyślnie wyświetlaj potrawy zaczynające się od litery 'A'
-      filterByLetter('A')
+      // Domyślnie wyświetlaj wszystkie potrawy
+      filterByLetter('')
     })
 
     return {
@@ -61,4 +71,3 @@ export default {
   }
 }
 </script>
-  
