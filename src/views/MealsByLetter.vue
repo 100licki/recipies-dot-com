@@ -1,37 +1,64 @@
 <template>
-  <div class="p-8 pb-0">
-    <h1 class="text-4xl font-bold mb-4 text-orange-300">Meals by Letter</h1>
+  <div>
+    <div>
+      <button v-for="letter in letters" :key="letter" @click="filterByLetter(letter)">
+        {{ letter }} &nbsp; &nbsp; <!-- whitespace -->
+      </button>
+    </div>
+    <div v-if="filteredMeals.length === 0">
+      Brak potraw dla wybranej litery.
+    </div>
+    <div v-else>
+      <div class="p-8 pb-0" style="color: #F1AD80;">
+        <h1 class="text-4xl font-bold mb-4">Meals</h1>
+      </div>
+      <Meals :meals="filteredMeals" />
+    </div>
   </div>
-  <div class="flex flex-wrap justify-center gap-3 px-8 mb-6">
-    <router-link
-      :to="{ name: 'byLetter', params: { letter } }"
-      v-for="letter of letters"
-      :key="letter"
-      class="w-2 h-2 flex items-center justify-center hover:text-orange-300 hover:scale-150 transition-all"
-    >
-      {{ letter }}
-    </router-link>
-  </div>
-
-  <Meals :meals="meals" />
 </template>
+  
+<script>
+import { ref, onMounted } from 'vue'
+import { collection, query, where, getDocs } from 'firebase/firestore'
+import db from '../firebase/init.js'
+import Meals from '../components/Meals.vue';
 
-<script setup>
-import { computed } from "@vue/reactivity";
-import { onMounted, watch } from "vue";
-import { useRoute } from "vue-router";
-import store from "../store";
-import Meals from "../components/Meals.vue";
+export default {
+  components: {
+    Meals,
+  },
+  name: 'FoodList',
+  setup() {
+    const letters = ref('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''))
+    const filteredMeals = ref([])
 
-const route = useRoute();
-const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-const meals = computed(() => store.state.mealsByLetter);
+    const filterByLetter = async (letter) => {
+      const mealsRef = collection(db, 'meals')
+      const q = query(mealsRef, where('name', '>=', letter), where('name', '<', letter + 'z'))
+      const querySnapshot = await getDocs(q)
 
-watch(route, () => {
-  store.dispatch("searchMealsByLetter", route.params.letter);
-});
+      filteredMeals.value = querySnapshot.docs.map((doc) => {
+        return {
+          id: doc.id,
+          name: doc.data().name,
+          picture: doc.data().picture,
+          preparation: doc.data().preparation,
+          youtube: doc.data().youtube
+        }
+      })
+    }
 
-onMounted(() => {
-  store.dispatch("searchMealsByLetter", route.params.letter);
-});
+    onMounted(() => {
+      // Domyślnie wyświetlaj potrawy zaczynające się od litery 'A'
+      filterByLetter('A')
+    })
+
+    return {
+      letters,
+      filteredMeals: filteredMeals,
+      filterByLetter
+    }
+  }
+}
 </script>
+  
