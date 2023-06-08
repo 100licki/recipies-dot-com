@@ -4,7 +4,6 @@ import GuestLayout from '../components/GuestLayout.vue';
 import Home from '../views/Home.vue'
 import MealsByIngredient from '../views/MealsByIngredient.vue'
 import MealsByLetter from '../views/MealsByLetter.vue'
-import MealsByName from '../views/MealsByName.vue'
 import MealDetails from '../views/MealDetails.vue'
 import Ingredients from '../views/Ingredients.vue'
 import Admin from '../views/Admin.vue'
@@ -23,41 +22,31 @@ const routes = [
       },
       {
         path: '/admin',
-        name: 'Admin',
+        name: 'admin',
         component: Admin,
       },
       {
         path: '/admin/tags',
-        name: 'Tags',
+        name: 'tags',
         component: Tags,
       },
       {
         path: '/admin/ingredients',
-        name: 'Ingredients',
+        name: 'ingredients',
         component: Ingredients,
       },
       {
         path: '/admin/add-meal',
-        name: 'AddMeal',
+        name: 'addMeal',
         component: AddMeal,
       },
-      //{
-      //  path: "/by-name/:name?",
-      //  name: "byName",
-      //  component: MealsByName,
-      //},
       {
         path: "/by-letter/:letter?",
         name: "byLetter",
         component: MealsByLetter,
       },
       {
-        path: "/ingredients",
-        name: "ingredients",
-        component: Ingredients,
-      },
-      {
-        path: "/by-ingredient/:ingredient",
+        path: "/by-ingredient/:ingredient?",
         name: "byIngredient",
         component: MealsByIngredient,
       },
