@@ -41,89 +41,93 @@ import Meals from '../components/Meals.vue';
 
 
 export default {
-    components: {
-        Meals,
-    },
-    name: 'MealSearch',
-    setup() {
-        const searchQuery = ref('')
-        const filteredMeals = ref([])
-        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
-        const showAllMeals = ref(true)
-        const selectedLetter = ref('');
+  components: {
+    Meals,
+  },
+  name: 'MealSearch',
+  setup() {
+    const searchQuery = ref('')
+    const filteredMeals = ref([])
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
+    const showAllMeals = ref(true)
+    const selectedLetter = ref('');
 
-        const filterByLetter = async (letter) => {
-            if (letter === selectedLetter.value) {
-                selectedLetter.value = ''; // Clear the selected letter
-                showAllMeals.value = true; // Show all meals
-            } else {
-                selectedLetter.value = letter; // Set the selected letter
-                showAllMeals.value = false; // Hide all meals
-            }
-            const mealsRef = collection(db, 'meals')
-            let q;
+    const filterByLetter = async (letter) => {
+      if (letter === selectedLetter.value) {
+        selectedLetter.value = ''; // Clear the selected letter
+        showAllMeals.value = true; // Show all meals
+      } else {
+        selectedLetter.value = letter; // Set the selected letter
+        showAllMeals.value = false; // Hide all meals
+      }
+      const mealsRef = collection(db, 'meals')
+      let q;
 
-            if (showAllMeals.value) {
-                q = mealsRef; // Jeśli showAllMeals jest true, pobierz wszystkie potrawy
-            } else {
-                q = query(mealsRef, where('name', '>=', letter), where('name', '<', letter + 'z'));
-            }
-
-            const querySnapshot = await getDocs(q)
-
-            filteredMeals.value = querySnapshot.docs.map((doc) => {
-                return {
-                    id: doc.id,
-                    name: doc.data().name,
-                    picture: doc.data().picture,
-                    preparation: doc.data().preparation,
-                    youtube: doc.data().youtube
-                }
-            })
+      if (showAllMeals.value) {
+        q = mealsRef; // Jeśli showAllMeals jest true, pobierz wszystkie potrawy
+      } else {
+          q = query(mealsRef, where('name', '>=', letter), where('name', '<', letter + 'z'));
         }
 
-        onMounted(() => {
-         // Domyślnie wyświetlaj wszystkie potrawy
-        filterByLetter('')
-        })
+      const querySnapshot = await getDocs(q)
 
-        const searchMeals = async () => {
-            if (searchQuery.value === '') {
-                showAllMeals.value = true;
-                // Jeśli pole wyszukiwania jest puste, pobierz wszystkie potrawy
-                const mealsRef = collection(db, 'meals')
-                const querySnapshot = await getDocs(mealsRef)
-
-                filteredMeals.value = querySnapshot.docs.map((doc) => {
-                    return {
-                        id: doc.id,
-                        name: doc.data().name,
-                        picture: doc.data().picture,
-                        preparation: doc.data().preparation,
-                        youtube: doc.data().youtube
-                    }
-                })
-            } else {
-                // Jeśli pole wyszukiwania nie jest puste, wykonaj wyszukiwanie
-                showAllMeals.value = false
-                const mealsRef = collection(db, 'meals')
-                const q = query(mealsRef, where('name', '>=', searchQuery.value), where('name', '<', searchQuery.value + 'z'))
-                const querySnapshot = await getDocs(q)
-
-                filteredMeals.value = querySnapshot.docs.map((doc) => {
-                    return {
-                        id: doc.id,
-                        name: doc.data().name,
-                        picture: doc.data().picture,
-                        preparation: doc.data().preparation,
-                        youtube: doc.data().youtube
-                    }
-                })
-            }
-        }
-        onMounted(searchMeals)
-
+      filteredMeals.value = querySnapshot.docs.map((doc) => {
         return {
+          id: doc.id,
+          name: doc.data().name,
+          picture: doc.data().picture,
+          preparation: doc.data().preparation,
+          youtube: doc.data().youtube
+          }
+          })
+    }
+
+    onMounted(() => {
+      // Domyślnie wyświetlaj wszystkie potrawy
+      filterByLetter('')
+      })
+
+      const searchMeals = async () => {
+        if (searchQuery.value === '') {
+        // If the search query is empty, fetch all meals
+          const mealsRef = collection(db, 'meals');
+          const querySnapshot = await getDocs(mealsRef);
+
+          filteredMeals.value = querySnapshot.docs.map((doc) => {
+            return {
+              id: doc.id,
+              name: doc.data().name,
+              picture: doc.data().picture,
+              preparation: doc.data().preparation,
+              youtube: doc.data().youtube
+            };
+          });
+        } else {
+          showAllMeals.value = false
+          // If the search query is not empty, perform a case-insensitive search
+            const mealsRef = collection(db, 'meals');
+            const querySnapshot = await getDocs(
+            query(
+              mealsRef,
+              where('name', '>=', searchQuery.value.toUpperCase()),
+              where('name', '<', searchQuery.value.toUpperCase() + 'z')
+            )
+          );
+
+        filteredMeals.value = querySnapshot.docs.map((doc) => {
+          return {
+            id: doc.id,
+            name: doc.data().name,
+            picture: doc.data().picture,
+            preparation: doc.data().preparation,
+            youtube: doc.data().youtube
+          };
+        });
+      }
+    };
+    onMounted(searchMeals)
+
+  return {
             letters,
             filterByLetter,
             searchQuery,
