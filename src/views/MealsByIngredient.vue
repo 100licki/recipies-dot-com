@@ -4,7 +4,7 @@
       <br> <!-- Empty line -->
       <input type="text" v-model="searchTerm" @input="searchByIngredient"  class="rounded border-2 bg-white border-gray-200 focus:ring-orange-300 focus:border-orange-300 w-full" placeholder="Wyszukaj składnik">
     </div>
-    <div v-if="filteredMeals.length === 0 && searchTerm !== ''">
+    <div class="px-8" v-if="filteredMeals.length === 0 && searchTerm !== ''">
       Brak potraw dla wpisanego składnika.
     </div>
     <div v-else>

@@ -1,39 +1,64 @@
 <template>
   <div class="max-w-[800px] mx-auto p-8">
     <h1 class="text-4xl font-bold mb-5 text-orange-300">{{ meal.name }}</h1>
-    <img :src="meal.picture" :alt="meal.name" class="max-w-[100%]">
-    <div class="grid grid-cols-1 sm:grid-cols-3 text-lg py-2">
-      <div>
-        <strong class="font-bold">Difficulty:</strong> {{ difficulty.name }}
-      </div>
-      <div>
-        <strong class="font-bold">Origin:</strong> {{ meal.origin }}
-      </div>
-      <div>
-        <strong class="font-bold">Time:</strong> {{ meal.time }}
-      </div>
-    </div>
-    <div class="my-3">
-      {{ meal.preparation }}
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2">
-      <div>
-        <h2 class="text-2xl font-semibold mb-2">Ingredients</h2>
-        <ul>
-          <li v-for="ingredient in ingredients" :key="ingredient.id">
-            {{ ingredient.name }}
-          </li>
-        </ul>
-        <h2 class="text-2xl font-semibold mb-2">Tags</h2>
-        <ul>
-          <li v-for="tag in tags" :key="tag.id">
-            {{ tag.name }}
-          </li>
-        </ul>
-        <!-- do poprawienia -->
-        <div class="flex items-center justify-between">
-          <YouTubeButton :href="meal.youtube" />
+    <img :src="meal.picture" :alt="meal.name" class="max-w-[100%]" />
+    <div
+      class="flex items-center justify-center h-40 w-full bg-neutral-900 mb-4 text-zinc-50 p-2"
+    >
+      <div
+        class="flex items-center justify-between mx-auto w-full py-8 px-0 md:w-3/4 md:px-16"
+      >
+        <div class="text-center border-r-2 border-state-50 flex-[0_0_33.3%]">
+          <p class="mb-4"><i class="fas fa-crown text-3xl"></i></p>
+          <p class="mb-3 uppercase">Difficulty</p>
+          <p>{{ difficulty.name }}</p>
         </div>
+        <div class="text-center border-r-2 border-state-50 flex-[0_0_33.3%]">
+          <p class="mb-4"><i class="fas fa-compass text-3xl"></i></p>
+          <p class="mb-3 uppercase">Origin</p>
+          <p>{{ meal.origin }}h</p>
+        </div>
+        <div class="text-center flex-[0_0_33.3%]">
+          <p class="mb-4"><i class="fas fa-clock text-3xl"></i></p>
+          <p class="mb-3 uppercase">Time</p>
+          <p>{{ meal.time }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-center mb-4">
+      <div
+        class="p-3 text-orange-300 font-bold text-xl"
+        v-for="tag in tags"
+        :key="tag.id"
+      >
+        #{{ tag.name }}
+      </div>
+    </div>
+
+    <div class="flex flex-wrap mb-4 gap-2 justify-between">
+      <div
+        class="h-auto flex-[0_0_100%] md:flex-[0_0_27%] bg-slate-50 text-left p-4 shadow-md"
+      >
+        <h2 class="text-2xl font-semibold mb-2">Ingredients</h2>
+        <div v-for="ingredient in ingredients" :key="ingredient.id">
+          <span>{{ ingredient.name }}</span>
+        </div>
+      </div>
+      <div
+        class="h-auto flex-[0_0_100%] md:flex-[0_0_70%] bg-slate-50 text-left p-4 shadow-md"
+      >
+        <h2 class="text-2xl font-semibold mb-2">Preparation</h2>
+        <div class="row">
+          <label>{{ meal.preparation }}</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-end mb-4">
+      <!-- do poprawienia -->
+      <div class="flex items-center justify-end mt-3">
+        <YouTubeButton :href="meal.youtube" />
       </div>
     </div>
   </div>
