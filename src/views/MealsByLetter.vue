@@ -27,7 +27,7 @@ export default {
   components: {
     Meals,
   },
-  name: 'FoodList',
+  name: 'MealList',
   setup() {
     const letters = ref('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''))
     const filteredMeals = ref([])

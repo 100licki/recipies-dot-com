@@ -1,5 +1,5 @@
 <template>
-    <div>
+  <div>
     <button @click="goToAdminView">Powrót</button>
   </div>
   <div>
@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     goToAdminView() {
-      this.$router.push({ name: 'Admin' });
+      this.$router.push({ name: 'admin' });
     },
     async addTag() {
       if (this.tagName !== '') {

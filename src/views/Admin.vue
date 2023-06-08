@@ -14,10 +14,10 @@
 export default {
   methods: {
     goToTagsView() {
-      this.$router.push({ name: 'Tags' });
+      this.$router.push({ name: 'tags' });
     },
     goToIngredientsView() {
-      this.$router.push({ name: 'Ingredients' });
+      this.$router.push({ name: 'ingredients' });
     }
   },
 };

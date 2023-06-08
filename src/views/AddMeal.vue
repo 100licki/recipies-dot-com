@@ -69,8 +69,8 @@ export default {
     },
     methods: {
         goToAdminView() {
-      this.$router.push({ name: 'Admin' });
-    },
+            this.$router.push({ name: 'admin' });
+        },
         async addMeal() {
             const { name: name, origin: origin, preparation: preparation, youtube: youtube, picture: picture, time: time, } = this.meal;
             if (name && preparation && picture && time && this.selectedTags.length > 0 && this.selectedIngredients.length > 0 && this.selectedDifficulty) {

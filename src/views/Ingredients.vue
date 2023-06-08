@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     goToAdminView() {
-      this.$router.push({ name: 'Admin' });
+      this.$router.push({ name: 'admin' });
     },
     async addIngredient() {
       if (this.ingredientName !== '') {
