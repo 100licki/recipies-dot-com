@@ -1,9 +1,12 @@
 <template>
   <div class="max-w-[800px] mx-auto p-8">
     <h1 class="text-4xl font-bold mb-5 text-orange-300">{{ meal.name }}</h1>
-    <img :src="meal.picture" :alt="meal.name" class="max-w-[100%]" />
+    <div class="relative bg-white shadow rounded-md transition-all ">
+            <img :src="meal.picture" :alt="meal.name" class="rounded-t-md w-full h-96 object-cover" />
+        
+    </div>
     <div
-      class="flex items-center justify-center h-40 w-full bg-neutral-900 mb-4 text-zinc-50 p-2"
+      class="flex items-center justify-center h-40 w-full bg-stone-900 mb-4 text-zinc-50 p-2 rounded-b-md shadow-lg shadow-gray-500"
     >
       <div
         class="flex items-center justify-between mx-auto w-full py-8 px-0 md:w-3/4 md:px-16"
