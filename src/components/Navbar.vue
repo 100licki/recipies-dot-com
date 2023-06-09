@@ -18,16 +18,16 @@
         Admin Panel
       </router-link>
       <!-- POPRAWIĆ DWA BUTTONY - WYGLĄD PODCZAS NAJECHANIA MYSZKĄ -->
-      <div v-if="!isLoggedIn">
+      <div v-if="!isLoggedIn" class = "h-full">
         <router-link :to="{ name: 'singIn' }"
-          style="border-right: 1px solid rgb(235,235,235);border-left: 1px solid rgb(235,235,235);"
-          class="px-5 whitespace-nowrap inline-flex items-center justify-center px-2 h-full transition-colors hover:bg-orange-300 hover:text-white w-full font-light text-orange-400 text-base">
+          style="border-right: 1px solid rgb(235,235,235)"
+          class="px-8 whitespace-nowrap inline-flex items-center justify-center px-2 h-full transition-colors hover:bg-orange-300 hover:text-white w-full font-light text-orange-400 text-base">
           Sign In
         </router-link>
       </div>
       <div v-if="isLoggedIn" style="border-right: 1px solid rgb(235,235,235);border-left: 1px solid rgb(235,235,235);"
-        class="px-5 whitespace-nowrap inline-flex items-center justify-center px-2 h-full transition-colors hover:bg-orange-300 hover:text-white w-full font-light text-orange-400 text-base">
-        <button @click="handleSignOut" v-if="isLoggedIn">Sign out</button>
+        class=" whitespace-nowrap inline-flex items-center justify-center px-2 h-full transition-colors hover:bg-orange-300 hover:text-white w-full font-light text-orange-400 text-base">
+        <button @click="handleSignOut" v-if="isLoggedIn" class="w-full h-full px-7">Sign out</button>
       </div>
     </div>
   </header>
