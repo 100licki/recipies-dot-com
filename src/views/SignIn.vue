@@ -4,7 +4,6 @@
     <p><input type="password" placeholder="Password" v-model="password" /></p>
     <p v-if="errMsg">{{ errMsg }}</p>
     <p><button @click="signIn">Submit</button></p>
-    <p><button @click="signInWithGoogle">Sign In With Google</button></p>
 </template>
 
 <script setup>
@@ -23,7 +22,7 @@ const signIn = () => {
         .then((data) => {
             console.log("Successfully signed!")
             console.log(auth.currentUser)
-            router.push('/home') //albo samo /
+            router.push('/')
         })
         .catch((error) => {
             console.log(error.code);
@@ -39,5 +38,4 @@ const signIn = () => {
             }
         })
 }
-const signInWithGoogle = () => { };
 </script>
