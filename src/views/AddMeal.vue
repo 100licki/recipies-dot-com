@@ -1,6 +1,6 @@
 <template>
-    <div class="pt-10 px-40">
-      <div class=" bg-white shadow rounded-md transition-all shadow-lg shadow-gray-300">
+    <div class="pt-10 pb-5 px-40">
+      <div class=" bg-white shadow rounded-md transition-all shadow-lg shadow-gray-300 pb-5 ">
         <div class="relative">
           <button @click="goToAdminView" class="absolute right-5 top-3">
             <img src="https://www.svgrepo.com/show/458545/back.svg" class="h-8 w-8" />
@@ -18,22 +18,22 @@
             <input v-model="meal.youtube" type="text" placeholder="Youtube URL link" class="text-sm border-1 bg-white border-gray-200 focus:ring-0 focus:border-orange-300 w-full rounded" />
             <div>
               <select :style="{ height: elementHeight + 'px' }" v-model="selectedDifficulty" class="text-sm h-full border-1 bg-white border-gray-200 focus:ring-0 focus:border-orange-300 w-full rounded">
-                <option disabled value="">Choose a difficulty level</option>
+                <option disabled value="" class = "text-gray-500" >Choose a difficulty level</option>
                 <option v-for="difficulty in difficulties" :key="difficulty.id" :value="difficulty.id">{{ difficulty.name }}</option>
               </select>
               
             </div>
             <select v-model="selectedIngredients" multiple class="text-sm custom-select border-1 bg-white border-gray-200 focus:ring-0 focus:border-orange-300 focus:bg-color-200 w-full rounded">
-              <option disabled selected value="">Select Ingredients</option>
-              <option v-for="ingredient in ingredients" :key="ingredient.id" :value="ingredient.id" class="focus:bg-orange-200 my-1 p-1">{{ ingredient.name }}</option>
+              <option disabled selected value="" class = "py-1 px-2">Select Ingredients</option>
+              <option v-for="ingredient in ingredients" :key="ingredient.id" :value="ingredient.id" class="bg-stone-100 focus:bg-orange-200 my-1 p-2">{{ ingredient.name }}</option>
             </select>
             <select v-model="selectedTags" multiple class="text-sm custom-select border-1 bg-white border-gray-200 focus:ring-0 focus:border-orange-300 focus:bg-color-200 w-full rounded">
-              <option disabled selected value="">Select Tags</option>
-              <option v-for="tag in tags" :key="tag.id" :value="tag.id" class="py-1 focus:bg-orange-200 my-1">{{ tag.name }}</option>
+              <option disabled selected value="" class = "py-1 px-2">Select Tags</option>
+              <option v-for="tag in tags" :key="tag.id" :value="tag.id" class="bg-stone-100 focus:bg-orange-200 my-1 p-2">{{ tag.name }}</option>
             </select>
           </div >
-          <div class="my-3 text-left">
-          <button @click="addMeal" :style="{ height: elementHeight + 'px' }" class=" flex items-center justify-center bg-gradient-to-r from-orange-300 to-orange-400 hover:from-orange-300 hover:to-orange-500 text-white font-semibold px-8 py-3 rounded-md shadow-lg hover:shadow-orange-300 w-full h-full">Dodaj Potrawę</button>
+          <div class="my-4 ">
+          <button @click="addMeal" :style="{ height: elementHeight + 'px' }" class=" flex items-center justify-center bg-gradient-to-r from-orange-300 to-orange-400 hover:from-orange-300 hover:to-orange-500 text-white font-semibold px-8 py-3 rounded-md shadow-lg hover:shadow-orange-300 w-full h-full">Add new meal</button>
         </div>
         </div>
       <div class = "px-10">
@@ -54,18 +54,18 @@
                         </p>
                         
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 ">
+                    <div class="grid grid-cols-1 md:grid-cols-2 mb-4">
                         
                         <router-link :to="{ name: 'mealDetails', params: { id: meal.id } }">
                         <div>
-                        <p class="mb-2 text-gray-500 text-sm pt-3 px-1 text-center">
+                        <p class=" text-gray-500 text-sm pt-3 px-1 text-center">
                             Click to see details
                         </p>
                     </div>
                 </router-link>
                 <button @click="deleteMeal(meal.id)">  
                 <div>
-                        <p class="mb-2 text-gray-500 text-sm pt-3 px-1 text-center">
+                        <p class=" text-gray-500 text-sm pt-3 px-1 text-center">
                             Delete
                         </p>
                     </div>
@@ -80,15 +80,7 @@
 
       </div>
       
-      <div>
-        <h2>Lista Potraw</h2>
-        <ul>
-          <li v-for="meal in meals" :key="meal.id">
-            <span>{{ meal.name }} - {{ meal.time }}</span>
-            <button @click="deleteMeal(meal.id)">Usuń</button>
-          </li>
-        </ul>
-      </div>
+      
     </div>
     </div>
   </template>
