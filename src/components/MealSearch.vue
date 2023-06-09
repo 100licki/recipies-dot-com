@@ -15,21 +15,19 @@
           </div>
           <div v-else>
             <div class="p-8 pb-0" style="color: #F1AD80;">
-              <h1 class="text-4xl font-bold mb-4">Meals</h1>
+              <h1 class="text-4xl font-bold mb-4"></h1>
             </div>
-            <Meals :meals="filteredMeals" />
           </div>
         </div>
         <div v-if="filteredMeals.length === 0 && searchQuery !== '' && filteredMeals.length === 0">
-          Brak wyników.
         </div>
         <div v-else-if="showAllMeals">
           <div class="p-8 pb-0" style="color: #F1AD80;">
             <h1 class="text-4xl font-bold mb-4">Meals</h1>
           </div>
-          <Meals :meals="filteredMeals" />
         </div>
       </div>
+      <Meals :meals="filteredMeals" />
     </div>
   </template>
   
@@ -89,9 +87,10 @@ export default {
 
       const searchMeals = async () => {
         if (searchQuery.value === '') {
+          showAllMeals.value = true
         // If the search query is empty, fetch all meals
-          const mealsRef = collection(db, 'meals');
-          const querySnapshot = await getDocs(mealsRef);
+          const mealsRef = collection(db, 'meals')
+          const querySnapshot = await getDocs(mealsRef)
 
           filteredMeals.value = querySnapshot.docs.map((doc) => {
             return {
@@ -101,18 +100,13 @@ export default {
               preparation: doc.data().preparation,
               youtube: doc.data().youtube
             };
-          });
+          })
         } else {
           showAllMeals.value = false
           // If the search query is not empty, perform a case-insensitive search
             const mealsRef = collection(db, 'meals');
-            const querySnapshot = await getDocs(
-            query(
-              mealsRef,
-              where('name', '>=', searchQuery.value.toUpperCase()),
-              where('name', '<', searchQuery.value.toUpperCase() + 'z')
-            )
-          );
+            const q = query(mealsRef, where('name', '>=', searchQuery.value), where('name', '<', searchQuery.value + 'z'))
+            const querySnapshot = await getDocs(q)
 
         filteredMeals.value = querySnapshot.docs.map((doc) => {
           return {
