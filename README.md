@@ -1,6 +1,4 @@
 # recipies-dot-com
-Bogate aplikacje
-
 
 Aplikacja webowa pozwala użytkownikom na wyszukiwanie dań i receptur. Na górze strony znajduje się pasek wyszukiwarki, w którym użytkownicy mogą wprowadzać nazwy potraw, składniki lub inne kryteria wyszukiwania. Po wprowadzeniu danych, użytkownik może kliknąć przycisk "szukaj" i aplikacja wyświetli wyniki zgodne z zapytaniem.
 
